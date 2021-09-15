@@ -1,0 +1,37 @@
+{
+    "name": "danielburger1337/steam-openid",
+    "type": "library",
+    "description": "A simple, modern and modular OpenID client library implementation for Steam.",
+    "license": "MIT",
+    "homepage": "https://github.com/danielburger1337/steam-openid-php",
+    "authors": [
+        {
+            "name": "Daniel Burger",
+            "homepage": "https://github.com/danielburger1337"
+        }
+    ],
+    "keywords": [
+        "valve",
+        "steam",
+        "steamcommunity",
+        "openid"
+    ],
+    "require": {
+        "php": ">=8.0",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0"
+    },
+    "require-dev": {
+        "symfony/http-client": "^5.3",
+        "nyholm/psr7": "^1.4"
+    },
+    "suggest": {
+        "symfony/http-client": "^5.3",
+        "nyholm/psr7": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "danielburger1337\\SteamOpenId\\": "src/"
+        }
+    }
+}
