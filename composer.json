@@ -23,7 +23,9 @@
     },
     "require-dev": {
         "symfony/http-client": "^5.3",
-        "nyholm/psr7": "^1.4"
+        "nyholm/psr7": "^1.4",
+        "phpunit/phpunit": "^9.0",
+        "friendsofphp/php-cs-fixer": "^3.1"
     },
     "suggest": {
         "symfony/http-client": "^5.3",
@@ -32,6 +34,11 @@
     "autoload": {
         "psr-4": {
             "danielburger1337\\SteamOpenId\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "danielburger1337\\SteamOpenId\\Tests\\": "Tests/"
         }
     }
 }
