@@ -6,8 +6,10 @@ use danielburger1337\SteamOpenId\Exception\InvalidParameterException;
 
 /**
  * @see http://openid.net/specs/openid-authentication-2_0.html#positive_assertions
+ *
+ * @internal
  */
-class Assertions
+final class AssertionValidator
 {
     /**
      * @param array<string, string>

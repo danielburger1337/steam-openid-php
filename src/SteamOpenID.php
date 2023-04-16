@@ -97,7 +97,7 @@ class SteamOpenID
     public function verifyCallback(array $parameters, bool $areDotsSpaces = true): string
     {
         // locally verify all given parameters
-        $assertions = new Assertions($parameters, $areDotsSpaces);
+        $assertions = new AssertionValidator($parameters, $areDotsSpaces);
         $postData = [
             'openid.ns' => $assertions->assertKeyValuePair('openid.ns', 'http://specs.openid.net/auth/2.0'),
             'openid.mode' => $assertions->assertKeyValuePair('openid.mode', 'id_res'),
