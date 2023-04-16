@@ -22,13 +22,13 @@
         "psr/http-factory": "^1.0"
     },
     "require-dev": {
-        "symfony/http-client": "^5.3",
+        "symfony/http-client": "^6.0",
         "nyholm/psr7": "^1.4",
         "phpunit/phpunit": "^9.0",
         "friendsofphp/php-cs-fixer": "^3.1"
     },
     "suggest": {
-        "symfony/http-client": "^5.3",
+        "symfony/http-client": "^6.0",
         "nyholm/psr7": "^1.4"
     },
     "autoload": {
