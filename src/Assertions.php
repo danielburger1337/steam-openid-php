@@ -9,6 +9,9 @@ use danielburger1337\SteamOpenId\Exception\InvalidParameterException;
  */
 class Assertions
 {
+    /**
+     * @param array<string, string>
+     */
     public function __construct(
         private array $parameters,
         private bool $areDotsSpaces = true
@@ -45,11 +48,11 @@ class Assertions
     {
         $key = $this->resolveKey($key);
 
-        if (!array_key_exists($key, $this->parameters)) {
+        if (!\array_key_exists($key, $this->parameters)) {
             throw new InvalidParameterException($key, "The parameter \"{$key}\" was not found.");
         }
 
-        if (!is_string($this->parameters[$key])) {
+        if (!\is_string($this->parameters[$key])) {
             throw new InvalidParameterException($key, "The parameter \"{$key}\" is not of type string.");
         }
 
@@ -64,7 +67,7 @@ class Assertions
     private function resolveKey(string $key): string
     {
         if ($this->areDotsSpaces) {
-            return str_replace('.', '_', $key);
+            return \str_replace('.', '_', $key);
         }
 
         return $key;

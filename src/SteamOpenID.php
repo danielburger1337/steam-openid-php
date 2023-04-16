@@ -58,7 +58,7 @@ class SteamOpenID
      */
     public function constructCheckIdSetupUri(): string
     {
-        return self::OP_ENDPOINT.'?'.http_build_query($this->createCheckIdSetupData());
+        return self::OP_ENDPOINT.'?'.\http_build_query($this->createCheckIdSetupData());
     }
 
     /**
@@ -120,11 +120,11 @@ class SteamOpenID
 
         try {
             $request = $this->getRequestFactory()
-                ->createRequest('POST', self::OP_ENDPOINT.'?'.http_build_query($postData));
+                ->createRequest('POST', self::OP_ENDPOINT.'?'.\http_build_query($postData));
 
             $response = $this->getHttpClient()->sendRequest($request);
 
-            $isValid = $response->getStatusCode() === 200 && str_contains((string) $response->getBody(), 'is_valid:true');
+            $isValid = $response->getStatusCode() === 200 && \str_contains((string) $response->getBody(), 'is_valid:true');
         } catch (ClientExceptionInterface $e) {
             throw new CheckAuthenticationException('Failed to verify with steam.', previous: $e);
         }
@@ -133,7 +133,7 @@ class SteamOpenID
             throw new CheckAuthenticationException('Steam denied the authentication request.');
         }
 
-        return str_replace('https://steamcommunity.com/openid/id/', '', $postData['openid.claimed_id']);
+        return \str_replace('https://steamcommunity.com/openid/id/', '', $postData['openid.claimed_id']);
     }
 
     /**
@@ -154,16 +154,16 @@ class SteamOpenID
     public function fetchUserInfo(string $steamId, string $webApiKey): ?array
     {
         $request = $this->getRequestFactory()
-            ->createRequest('GET', 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002?'.http_build_query([
+            ->createRequest('GET', 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002?'.\http_build_query([
                 'format' => 'json',
                 'steamids' => $steamId,
                 'key' => $webApiKey,
             ]));
         $response = $this->getHttpClient()->sendRequest($request);
 
-        $data = json_decode((string) $response->getBody(), true);
+        $data = \json_decode((string) $response->getBody(), true);
 
-        if ($response->getStatusCode() !== 200 || json_last_error() !== \JSON_ERROR_NONE) {
+        if ($response->getStatusCode() !== 200 || \json_last_error() !== \JSON_ERROR_NONE) {
             return null;
         }
 
@@ -176,9 +176,9 @@ class SteamOpenID
     private function getHttpClient(): ClientInterface
     {
         if (null === $this->httpClient) {
-            if (!class_exists(Psr18Client::class)) {
+            if (!\class_exists(Psr18Client::class)) {
                 throw new \LogicException(
-                    sprintf('No psr-18 client passed and failed to load %s. Try `composer require symfony/http-client`.', Psr18Client::class)
+                    \sprintf('No psr-18 client passed and failed to load %s. Try `composer require symfony/http-client`.', Psr18Client::class)
                 );
             }
 
@@ -194,9 +194,9 @@ class SteamOpenID
     private function getRequestFactory(): RequestFactoryInterface
     {
         if (null === $this->requestFactory) {
-            if (!class_exists(Psr17Factory::class)) {
+            if (!\class_exists(Psr17Factory::class)) {
                 throw new \LogicException(
-                    sprintf('No psr-17 factory passed and failed to load %s. Try `composer require nyholm/psr7`.', Psr17Factory::class)
+                    \sprintf('No psr-17 factory passed and failed to load %s. Try `composer require nyholm/psr7`.', Psr17Factory::class)
                 );
             }
 
