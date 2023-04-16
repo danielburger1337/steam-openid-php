@@ -167,7 +167,7 @@ class SteamOpenID
             return null;
         }
 
-        return $data['response']['players'][0];
+        return $data['response']['players'][0]; // @phpstan-ignore-line
     }
 
     /**

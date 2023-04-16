@@ -6,9 +6,9 @@ class InvalidParameterException extends \Exception implements ExceptionInterface
 {
     public function __construct(
         private string $parameter,
-        private ?string $message = null,
-        private int $code = 0,
-        private ?\Throwable $previous = null
+        ?string $message = null,
+        int $code = 0,
+        ?\Throwable $previous = null
     ) {
         parent::__construct($message ?? "The parameter \"{$parameter}\" is invalid.", $code, $previous);
     }

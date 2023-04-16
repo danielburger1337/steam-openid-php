@@ -12,7 +12,7 @@ use danielburger1337\SteamOpenId\Exception\InvalidParameterException;
 final class AssertionValidator
 {
     /**
-     * @param array<string, string>
+     * @param array<string, string> $parameters The received OpenID parameters from Steam.
      */
     public function __construct(
         private array $parameters,
