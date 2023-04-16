@@ -1,3 +1,5 @@
+[![PHPStan](https://github.com/danielburger1337/steam-openid-php/actions/workflows/phpstan.yml/badge.svg)](https://github.com/danielburger1337/steam-openid-php/actions/workflows/phpstan.yml)
+
 # Steam OpenID Authentication Library
 
 A simple, modern and modular OpenID client library implementation for Steam.
