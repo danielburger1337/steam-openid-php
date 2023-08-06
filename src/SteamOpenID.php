@@ -15,7 +15,7 @@ class SteamOpenID
     /**
      * @var string The OpenID login endpoint.
      */
-    public const OP_ENDPOINT = 'https://steamcommunity.com/openid/login';
+    final public const OP_ENDPOINT = 'https://steamcommunity.com/openid/login';
 
     /**
      * @param string                       $realm          Your OpenID "realm".
