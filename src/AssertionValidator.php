@@ -15,8 +15,8 @@ final class AssertionValidator
      * @param array<string, string> $parameters The received OpenID parameters from Steam.
      */
     public function __construct(
-        private array $parameters,
-        private bool $areDotsSpaces = true
+        private readonly array $parameters,
+        private readonly bool $areDotsSpaces = true
     ) {
     }
 

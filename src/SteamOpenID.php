@@ -26,8 +26,8 @@ class SteamOpenID
      *                                                     If none is provided, "nyholm/psr-7" is tried to be instantied.
      */
     public function __construct(
-        private string $realm,
-        private string $returnTo,
+        private readonly string $realm,
+        private readonly string $returnTo,
         private ?ClientInterface $httpClient = null,
         private ?RequestFactoryInterface $requestFactory = null,
     ) {
