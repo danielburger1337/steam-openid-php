@@ -68,7 +68,7 @@ class SteamOpenID
      * OR you can send this data via a GET request in the query parameters
      * to the OP endpoint to start the authentication flow.
      *
-     * @return array The setup data.
+     * @return array<string, string> The setup data.
      */
     public function createCheckIdSetupData(): array
     {
@@ -87,7 +87,7 @@ class SteamOpenID
     /**
      * Verify the parameters returned by the OpenID provider (steam).
      *
-     * @param array $parameters The returned parameters ($_GET).
+     * @param array<string, string> $parameters The returned parameters ($_GET).
      *
      * @return string The users 64-bit SteamID.
      *
@@ -120,20 +120,53 @@ class SteamOpenID
 
         try {
             $request = $this->getRequestFactory()
-                ->createRequest('POST', self::OP_ENDPOINT.'?'.\http_build_query($postData));
+                ->createRequest('POST', self::OP_ENDPOINT.'?'.\http_build_query($postData))
+            ;
 
             $response = $this->getHttpClient()->sendRequest($request);
-
-            $isValid = $response->getStatusCode() === 200 && \str_contains((string) $response->getBody(), 'is_valid:true');
         } catch (ClientExceptionInterface $e) {
             throw new CheckAuthenticationException('Failed to verify with steam.', previous: $e);
         }
 
-        if (!$isValid) {
-            throw new CheckAuthenticationException('Steam denied the authentication request.');
+        if ($response->getStatusCode() !== 200) {
+            throw new CheckAuthenticationException('Steam authentication check failed unexpectatly.', CheckAuthenticationException::STEAM_ERROR);
+        }
+
+        try {
+            $authData = $this->parseAuthenticationCheck((string) $response->getBody());
+        } catch (\Throwable $e) {
+            throw new CheckAuthenticationException('Steam authentication check failed unexpectatly.', CheckAuthenticationException::STEAM_ERROR, $e);
+        }
+
+        try {
+            $validator = new AssertionValidator($authData, false);
+            $validator->assertKeyValuePair('ns', 'http://specs.openid.net/auth/2.0');
+            $validator->assertKeyValuePair('is_valid', 'true');
+        } catch (InvalidParameterException $e) {
+            throw new CheckAuthenticationException('Steam denied the authentication request.', CheckAuthenticationException::ACCESS_DENIED, $e);
         }
 
         return \str_replace('https://steamcommunity.com/openid/id/', '', $postData['openid.claimed_id']);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function parseAuthenticationCheck(string $body): array
+    {
+        $data = [];
+
+        foreach (\explode("\n", $body) as $line) {
+            $part = \explode(':', $line, 2);
+
+            if (!isset($part[1])) {
+                continue;
+            }
+
+            $data[$part[0]] = $part[1];
+        }
+
+        return $data;
     }
 
     /**
