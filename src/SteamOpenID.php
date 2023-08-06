@@ -137,40 +137,6 @@ class SteamOpenID
     }
 
     /**
-     * Simple API client method to request the users info (player summary).
-     *
-     * I highly recommend using a dedicated Steam Web API client library to handle errors
-     * (like rate limiting) properly.
-     *
-     * @param string $steamId   The users 64-bit SteamID.
-     * @param string $webApiKey Your Steam Web API Key.
-     *
-     * @return array|null The user data or null if an unexpected error occured.
-     *
-     * @see https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0001.29
-     *
-     * @throws ClientExceptionInterface If an error happens while processing the request.
-     */
-    public function fetchUserInfo(string $steamId, string $webApiKey): ?array
-    {
-        $request = $this->getRequestFactory()
-            ->createRequest('GET', 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002?'.\http_build_query([
-                'format' => 'json',
-                'steamids' => $steamId,
-                'key' => $webApiKey,
-            ]));
-        $response = $this->getHttpClient()->sendRequest($request);
-
-        $data = \json_decode((string) $response->getBody(), true);
-
-        if ($response->getStatusCode() !== 200 || \json_last_error() !== \JSON_ERROR_NONE) {
-            return null;
-        }
-
-        return $data['response']['players'][0]; // @phpstan-ignore-line
-    }
-
-    /**
      * Lazy-load the psr-18 http client.
      */
     private function getHttpClient(): ClientInterface
