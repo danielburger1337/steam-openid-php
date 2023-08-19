@@ -51,10 +51,6 @@ try {
 } catch (ExceptionInterface $e) {
     exit(var_dump('Failed to verify steam authentication :('));
 }
-
-// we also provide a very simple ISteamUser::GetPlayerSummaries implementation
-// https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0001.29
-$user = $openId->fetchUserInfo($steamId, $YOUR_STEAM_WEB_API_KEY);
 ```
 
 ### Terms & Conditions
